@@ -1,3 +1,27 @@
+.header {
+    margin: 40px 15px;
+    display: grid;
+    grid-template-columns: 1fr minmax(400px, 1fr) 1fr;
+}
+
+#title {
+    grid-column: 2;
+    justify-self: center;
+    font-size: 60px;
+    font-family: 'Alex Brush';
+}
+
+.header-buttons {
+    grid-column: 3;
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+#newGrid {
+    margin-right: 3px;
+}
+
 .container {
     margin: 20px 0;
     display: flex;
@@ -13,4 +37,12 @@
 
 .grid-square {
     border: 1px solid black;
+}
+
+.grid-square--gridon {
+    border: 1px solid black;
+}
+
+.grid-square--gridoff {
+    border: none;
 }

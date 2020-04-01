@@ -2,12 +2,16 @@ let defaultRow = 16;
 let defaultCol = 16;
 
 const grid = document.querySelector(".grid");
-const button = document.querySelector(".newGrid");
+const newButton = document.querySelector("#newGrid");
+const gridButton = document.querySelector("#onoffGrid");
 
-// button.addEventListener('click', refreshGrid);
+newButton.addEventListener('click', onClickClear);
+gridButton.addEventListener('click', onClickToggle);
 
 // default
 createGrid(defaultRow, defaultCol);
+let isGridOn = true;
+gridButton.title = "Turn Grid Off";
 
 // builds a grid in the container
 function createGrid(numRow, numCol) {
@@ -61,6 +65,34 @@ function onMouseOver(e) {
     }
 }
 
+function onClickClear(e) {
+    let gridSquares = document.querySelectorAll(".grid-square");
+    gridSquares.forEach((square) => {
+        square.style.backgroundColor = 'transparent';
+        square.dataset.mouseoverPasses = 0;
+    })
+
+    refreshGrid();
+}
+
+function removeGridSquares() {
+    while (grid.hasChildNodes()) {
+        grid.removeChild(grid.firstChild);
+    }
+}
+
+function refreshGrid() {
+    removeGridSquares();
+    let squaresPerSide = Number(window.prompt("How many rows and columns?"));
+
+    if (squaresPerSide != null && squaresPerSide != '' && !isNaN(squaresPerSide)) {
+        defaultRow = squaresPerSide;
+        defaultCol = squaresPerSide;
+    }
+
+    createGrid(defaultRow, defaultCol);
+}
+
 function getRGB(red, green, blue) {
     return 'rgb(' + red + ',' + green + ',' + blue + ')';
 }
@@ -69,3 +101,33 @@ function randomColor() {
     return Math.floor(Math.random() * 256);
 }
 
+function onClickToggle(e) {
+    toggleGrid(!isGridOn);
+
+    isGridOn = !isGridOn;
+
+    if (isGridOn) {
+        gridButton.title = "Turn Grid Off";
+    }
+    else {
+        gridButton.title = "Turn Grid On";
+    }
+}
+
+function toggleGrid(gridState) {
+    let gridSquares = document.querySelectorAll(".grid-square");
+    gridSquares.forEach((square) => {
+        toggleGridSquare(square, gridState);
+    })
+}
+
+function toggleGridSquare(square, gridState) {
+    if (gridState) {
+        square.classList.remove('grid-square--gridoff');
+        square.classList.add('grid-square--gridon');
+    }
+    else {
+        square.classList.remove('grid-square--gridon');
+        square.classList.add('grid-square--gridoff');
+    }
+}
